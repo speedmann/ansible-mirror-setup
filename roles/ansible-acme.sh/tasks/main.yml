@@ -1,0 +1,37 @@
+---
+- name: Install git
+  package:
+    name: git
+    state: present
+- name: Install nginx
+  package:
+    name: nginx
+    state: present
+- name: Create default nginx ssl directory
+  file:
+    path: '/etc/nginx/ssl'
+    state: 'directory'
+    owner: 'root'
+    group: 'root'
+    mode: '0755'
+- name: Get acme.sh
+  git:
+    repo: https://github.com/Neilpang/acme.sh
+    dest: /root/acme.sh
+- name: Install acme.sh
+  command: ./acme.sh --install
+  args:
+    chdir: /root/acme.sh
+    creates: /root/.acme.sh
+
+- name: Issue cert
+  shell: export INWX_User={{ INWX_USER  }}; export INWX_Password={{ INWX_PASSWORD  }}; /root/.acme.sh/acme.sh --issue --dns dns_inwx -d {{ nginx_sites.default.domains[0] }} --test
+  args:
+    chdir: /root/acme.sh
+    creates: /root/.acme.sh/{{ nginx_sites.default.domains[0] }}
+
+- name: Install cert
+  shell: ./acme.sh --install-cert -d {{ nginx_sites.default.domains[0] }} --key-file /etc/nginx/ssl/{{ nginx_sites.default.domains[0] }}.key  --fullchain-file /etc/nginx/ssl/{{ nginx_sites.default.domains[0] }}.pem --reloadcmd "service nginx force-reload"
+  args:
+    chdir: /root/acme.sh
+    creates: /etc/nginx/ssl/{{ nginx_sites.default.domains[0] }}.pem

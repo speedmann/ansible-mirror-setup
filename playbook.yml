@@ -1,0 +1,73 @@
+---
+- hosts: localhost
+  connection: local
+  tasks:
+  - name: Create container
+    proxmox:
+      node: proxmox
+      api_user: root@pam
+      api_password: "{{ API_PASSWORD  }}"
+      api_host: proxmox.tuxcall.de
+      hostname: mirror.dev.tuxcall.de
+      ostemplate: 'local:vztmpl/ubuntu-17.04-standard_17.04-1_amd64.tar.gz'
+      netif: '{"net0":"name=eth0,gw=94.23.41.254,ip=54.37.220.225/32,bridge=vmbr0,hwaddr=02:00:00:4f:f7:81"}'
+      pubkey: "{{ public_key }}"
+      cpus: 2
+      disk: 500
+      memory: 2048
+  - name: Wait for container to be created
+    pause:
+      seconds: 5
+  - name: Start container
+    proxmox:
+      node: proxmox
+      api_user: root@pam
+      api_password: "{{ API_PASSWORD  }}"
+      api_host: proxmox.tuxcall.de
+      hostname: mirror.tuxcall.de
+      state: started
+  - name: Wait 300 seconds for port 22 to become open and contain "OpenSSH"
+    wait_for:
+      port: 22
+      host: '54.37.220.224'
+      search_regex: OpenSSH
+      delay: 10
+    connection: local
+- hosts: mirror
+  remote_user: root
+  pre_tasks:
+    - name: 'install python2'
+      raw: sudo apt-get -y install python-simplejson
+  roles:
+    - role: ansible-acme.sh
+      letsencrypt_domains: "{{ nginx_sites.default.domains }}"
+    - role: ansible-nginx
+  tasks:
+    - name: Copy ssh keys
+      authorized_key:
+        user: root
+        state: present
+        key: "{{ public_key }}"
+    - name: Create webroot directories
+      file: 
+        path: "{{ item.value.root }}"
+        state: directory
+        owner: www-data
+        mode: 0774
+      with_dict: "{{ nginx_sites }}"
+    - name: Copy sync file
+      copy:
+        src: sync_mirror.sh
+        dest: /root/sync_mirror.sh
+        mode: 0755
+    - name: Execute sync script
+      command: /root/sync_mirror.sh
+      args:
+        creates: /var/www/mirror.tuxcall.de/ubuntu
+    - name: create cron entry
+      cron:
+        name: "mirror sync"
+        minute: "7"
+        hour: "*/4"
+        job: " /root/sync_mirror.sh> /dev/null"
+   

@@ -1,0 +1,20 @@
+---
+letsencrypt_default_ca: 'https://acme-v01.api.letsencrypt.org'
+nginx_ssl_generate_self_signed_certs: False
+nginx_sites:
+  default:
+    domains: ['mirror.tuxcall.de']
+    default_server: True
+    listen_http: '80'
+    root: /var/www/mirror.tuxcall.de
+    ssl:
+      enabled: False
+    directory_listing: True
+  ubuntu:
+    domains: ['de.releases.ubuntu.com', 'test.local']
+    default_server: False
+    listen_http: '80'
+    root: /var/www/mirror.tuxcall.de/ubuntu
+    ssl:
+      enabled: False
+    directory_listing: True
