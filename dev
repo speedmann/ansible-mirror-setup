@@ -1,2 +1,15 @@
 [mirror]
 mirror.dev.tuxcall.de ansible_host=54.37.220.225 ansible_user=root ansible_python_interpreter=/usr/bin/python3
+#mirror1.dev.tuxcall.de ansible_host=54.37.220.229 ansible_user=root ansible_python_interpreter=/usr/bin/python3
+#mirror2.dev.tuxcall.de ansible_host=54.37.220.230 ansible_user=root ansible_python_interpreter=/usr/bin/python3
+#mirror3.dev.tuxcall.de ansible_host=54.37.220.231 ansible_user=root ansible_python_interpreter=/usr/bin/python3
+#mirror4.dev.tuxcall.de ansible_host=54.37.220.232 ansible_user=root ansible_python_interpreter=/usr/bin/python3
+#mirror5.dev.tuxcall.de ansible_host=54.37.220.233 ansible_user=root ansible_python_interpreter=/usr/bin/python3
+#mirror6.dev.tuxcall.de ansible_host=54.37.220.234 ansible_user=root ansible_python_interpreter=/usr/bin/python3
+#mirror7.dev.tuxcall.de ansible_host=54.37.220.235 ansible_user=root ansible_python_interpreter=/usr/bin/python3
+#mirror8.dev.tuxcall.de ansible_host=54.37.220.236 ansible_user=root ansible_python_interpreter=/usr/bin/python3
+#mirror9.dev.tuxcall.de ansible_host=54.37.220.237 ansible_user=root ansible_python_interpreter=/usr/bin/python3
+#mirror10.dev.tuxcall.de ansible_host=54.37.220.238 ansible_user=root ansible_python_interpreter=/usr/bin/python3
+#mirror11.dev.tuxcall.de ansible_host=54.37.220.226 ansible_user=root ansible_python_interpreter=/usr/bin/python3
+#mirror12.dev.tuxcall.de ansible_host=54.37.220.227 ansible_user=root ansible_python_interpreter=/usr/bin/python3
+#mirror13.dev.tuxcall.de ansible_host=54.37.220.228 ansible_user=root ansible_python_interpreter=/usr/bin/python3

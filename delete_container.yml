@@ -1,0 +1,17 @@
+---
+- name: stop container
+  proxmox:
+    node: proxmox
+    api_user: root@pam
+    api_password: "{{ API_PASSWORD  }}"
+    api_host: proxmox.tuxcall.de
+    hostname: "{{ hostvars[item].inventory_hostname }}"
+    state: stopped
+- name: Delete container
+  proxmox:
+    node: proxmox
+    api_user: root@pam
+    api_password: "{{ API_PASSWORD  }}"
+    api_host: proxmox.tuxcall.de
+    hostname: "{{ hostvars[item].inventory_hostname }}"
+    state: absent

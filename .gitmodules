@@ -7,3 +7,6 @@
 [submodule "roles/ansible-letsencrypt"]
 	path = roles/ansible-letsencrypt
 	url = git@github.com:nickjj/ansible-letsencrypt.git
+[submodule "library/ansible-ovh"]
+	path = library/ansible-ovh
+	url = git@github.com:cornelius-keller/ansible-ovh.git

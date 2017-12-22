@@ -1,0 +1,92 @@
+---
+- hosts: localhost
+  connection: local
+  tasks:
+  - name:  get servers
+    ovh:
+      method: get
+      endpoint: soyoustart-eu
+      application_key: "{{ OVH_KEY }}"
+      application_secret: "{{ OVH_SECRET }}"
+      consumer_key: "{{ OVH_TOKEN }}"
+      uri: /dedicated/server/ns302845.ip-94-23-41.eu/virtualMac
+      #args:
+        #ipAddress: 54.37.220.2{{ item }}
+        #type: ovh
+        #virtualMachineName: vm{{ item }}
+    register: mac_addresses
+    #with_items:
+      #- 25
+      #- 26
+      #- 27
+      #- 28
+      #- 29
+
+      #- 30
+      #- 31
+      #- 32
+      #- 33
+      #- 34
+      #- 35
+      #- 36
+      #- 37
+      #- 38
+  - name: get ip from mac
+    ovh:
+      method: get
+      endpoint: soyoustart-eu
+      application_key: "{{ OVH_KEY }}"
+      application_secret: "{{ OVH_SECRET }}"
+      consumer_key: "{{ OVH_TOKEN }}"
+      uri: /dedicated/server/ns302845.ip-94-23-41.eu/virtualMac/{{ item }}/virtualAddress
+    register: mac_list
+    with_items:
+      - "{{ mac_addresses.result }}"
+  - name: Create container
+    include: create_container.yml
+    with_items:
+      - "{{ groups['mirror'] }}"
+- hosts: mirror
+  remote_user: root
+  pre_tasks:
+    - name: 'install python2'
+      raw: sudo apt-get -y install python-simplejson
+  roles:
+    - role: ansible-nginx
+  tasks:
+    - name: Copy ssh keys
+      authorized_key:
+        user: root
+        state: present
+        key: "{{ public_key }}"
+    - name: Create mirror user
+      user:
+        name: mirror
+        state: present
+    - name: Create webroot directories
+      file: 
+        path: "{{ item.value.root }}"
+        state: directory
+        owner: mirror
+        group: mirror
+        mode: 0775
+      with_dict: "{{ nginx_sites }}"
+    - name: Copy sync file
+      copy:
+        src: sync_mirror.sh
+        dest: ~mirror/sync_mirror.sh
+        mode: 0755
+        owner: mirror
+        group: mirror
+    - name: Execute sync script
+      command: ~mirror/sync_mirror.sh
+      args:
+        creates: /var/www/mirror.tuxcall.de/ubuntu/robots.txt
+    - name: create cron entry
+      cron:
+        name: "mirror sync"
+        minute: "7"
+        hour: "*/4"
+        job: " ~mirror/sync_mirror.sh> /dev/null"
+        user: mirror
+   

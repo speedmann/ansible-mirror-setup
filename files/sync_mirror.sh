@@ -15,7 +15,7 @@ warn() {
 RSYNCSOURCE=rsync://de.rsync.releases.ubuntu.com/releases
 
 # Define where you want the mirror-data to be on your mirror
-BASEDIR=/var/www/mirror.tuxcall.de/ubuntu/
+BASEDIR=/home/mirror/www/mirror.tuxcall.de/ubuntu/
 
 if [ ! -d ${BASEDIR} ]; then
   warn "${BASEDIR} does not exist yet, trying to create it..."

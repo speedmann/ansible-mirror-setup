@@ -1,0 +1,8 @@
+---
+- hosts: localhost
+  tasks:
+  - name: Delete container
+    include: delete_container.yml
+    with_items:
+      - "{{ groups['mirror'] }}"
+  

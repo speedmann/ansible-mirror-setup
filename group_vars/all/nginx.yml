@@ -6,7 +6,7 @@ nginx_sites:
     domains: ['mirror.tuxcall.de']
     default_server: True
     listen_http: '80'
-    root: /var/www/mirror.tuxcall.de
+    root: /home/mirror/www/mirror.tuxcall.de
     ssl:
       enabled: False
     directory_listing: True
@@ -14,7 +14,7 @@ nginx_sites:
     domains: ['de.releases.ubuntu.com', 'test.local']
     default_server: False
     listen_http: '80'
-    root: /var/www/mirror.tuxcall.de/ubuntu
+    root: /home/mirror/www/mirror.tuxcall.de/ubuntu
     ssl:
       enabled: False
     directory_listing: True
