@@ -27,16 +27,16 @@
         user: root
         state: present
         key: "{{ public_key }}"
-    - name: Create mirror user
+    - name: Create ubuntu user
       user:
-        name: mirror
+        name: ubuntu
         state: present
     - name: Create webroot directories
       file: 
         path: "{{ nginx_root }}"
         state: directory
-        owner: mirror
-        group: mirror
+        owner: ubuntu
+        group: ubuntu
         mode: 0775
     - name: Create directories
       file: 
@@ -65,7 +65,7 @@
         minute: "7"
         hour: "*/1"
         job: " {{ item }}° /dev/null"
-        user: mirror
+        user: ubuntu
       with_items:
         - /usr/bin/ubuarchive
         - /usr/bin/uburelease

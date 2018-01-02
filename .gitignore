@@ -2,6 +2,7 @@
 __pycache__/
 *.py[cod]
 *$py.class
+ovh.conf
 
 # C extensions
 *.so

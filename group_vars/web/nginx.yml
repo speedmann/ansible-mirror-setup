@@ -1,5 +1,5 @@
 ---
-nginx_root: /home/mirror/www/{{ inventory_hostname }}/
+nginx_root: /var/www/{{ inventory_hostname }}/
 nginx_sites:
  default:
      - listen 80

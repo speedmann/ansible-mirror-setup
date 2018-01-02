@@ -1,5 +1,5 @@
 ---
-MIRROR_HOME: /home/mirror/www/
+MIRROR_HOME: /var/www/
 UBUNTU_ARCH_MIRROR: rsync.archive.ubuntu.com/ubuntu
 UBUNTU_CDI_MIRROR: de.rsync.cdimage.ubuntu.com/cdimage
 UBUNTU_RELEASE_MIRROR: rsync.releases.ubuntu.com/releases
