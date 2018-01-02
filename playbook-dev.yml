@@ -56,9 +56,14 @@
         - "{{ nginx_root }}ubuntu-archive/"
         - "{{ nginx_root }}ubuntu-release/"
     - name: Create ubumirror conf
-      template: 
+      template:
         dest: "/etc/ubumirror.conf"
         src: etc/ubumirror.conf.j2
+        mode: 0775
+    - name: Create rsyncd conf
+      template:
+        dest: "/etc/rsyncd.conf"
+        src: etc/rsyncd.conf.j2
         mode: 0775
     - name: Execute sync script
       command: "{{ item }}"

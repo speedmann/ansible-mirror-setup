@@ -1,0 +1,20 @@
+use chroot = true
+transfer logging = true
+log file = /var/log/rsyncd.log
+log format = %h %o %f %l %b
+
+[ubuntu]
+comment = Ubuntu Archive
+path = "{{ nginx_root }}/ubuntu-archive"
+read only = yes
+list = yes
+uid = "{{ MIRROR_USER }}"
+gid = "{{ MIRROR_USER }}"
+
+[releases]
+comment = Ubuntu Releases
+path = "{{ nginx_root }}/ubuntu-release"
+read only = yes
+list = yes
+uid = "{{ MIRROR_USER }}"
+gid = "{{ MIRROR_USER }}"
