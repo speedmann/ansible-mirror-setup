@@ -25,7 +25,7 @@
     netif: '{"net0":"name=eth0,gw=94.23.41.254,ip={{ hostvars[item].ansible_host }}/32,bridge=vmbr0,hwaddr={{ mac_address }}"}'
     pubkey: "{{ public_key }}"
     cpus: 2
-    disk: 500
+    disk: 1500
     memory: 2048
   register: create_container
 - name: Wait for container to be created

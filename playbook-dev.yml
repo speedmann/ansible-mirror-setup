@@ -1,24 +1,27 @@
 ---
-- hosts: "{{ groups['mirror']|first }}"
-  connection: local
-  gather_facts: no
-  tasks:
-    - include_role:
-        name: ovh
-      when: "'dev' in inventory_hostname"
-      delegate_to: localhost
+#- hosts: "{{ groups['mirror']|first }}"
+#  connection: local
+#  gather_facts: no
+#  tasks:
+#    - include_role:
+#        name: ovh
+#      when: "'dev' in inventory_hostname"
+#      delegate_to: localhost
 - hosts: mirror
   remote_user: root
   pre_tasks:
     - name: 'install python2'
       raw: sudo apt-get -y install python-simplejson
-  roles:
-    - { role: ansible-role-nginx, nginx_user: mirror }
   tasks:
-    - name: install rsync
+    - name: install software
       apt:
-        name: rsync
+        name: "{{item }}"
         state: present
+      with_items:
+        - rsync
+        - ubumirror
+        - iftop
+        - sendmail
     - name: Copy ssh keys
       authorized_key:
         user: root
@@ -35,31 +38,39 @@
         owner: mirror
         group: mirror
         mode: 0775
-    - name: Copy sync files
-      template:
-        src: "{{ item }}.j2"
-        dest: ~mirror/{{ item }}
-        mode: 0755
-        owner: mirror
-        group: mirror
+    - name: Create directories
+      file: 
+        path: "{{ item }}"
+        state: directory
+        mode: 0775
       with_items:
-        - sync_archive.sh
-        - sync_cd.sh
+        - /var/log/ubumirror
+        - "{{ nginx_root }}ubuntu-archive/"
+        - "{{ nginx_root }}ubuntu-release/"
+    - name: Create ubumirror conf
+      template: 
+        dest: "/etc/ubumirror.conf"
+        src: etc/ubumirror.conf.j2
+        mode: 0775
     - name: Execute sync script
-      command: ~mirror/{{ item }}
+      command: "{{ item }}"
       args:
         creates: "{{ nginx_root }}/ubuntu-release/robots.txt"
       with_items:
-        - sync_archive.sh
-        - sync_cd.sh
+        - ubuarchive
+        - uburelease
     - name: create cron entry
       cron:
         name: "{{ item }}"
         minute: "7"
-        hour: "*/4"
-        job: " ~mirror/{{ item }}> /dev/null"
+        hour: "*/1"
+        job: " {{ item }}° /dev/null"
         user: mirror
       with_items:
-        - sync_archive.sh
-        - sync_cd.sh
+        - /usr/bin/ubuarchive
+        - /usr/bin/uburelease
    
+- hosts: mirror
+  remote_user: root
+  roles:
+    - { role: ansible-role-nginx, nginx_user: mirror }

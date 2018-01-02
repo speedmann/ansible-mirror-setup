@@ -1,5 +1,5 @@
 [mirror]
-mirror.dev.tuxcall.de ansible_host=54.37.220.225 ansible_user=root ansible_python_interpreter=/usr/bin/python3
+mirror.tuxcall.de ansible_host=89.163.212.35 ansible_user=root ansible_python_interpreter=/usr/bin/python3
 #mirror1.dev.tuxcall.de ansible_host=54.37.220.229 ansible_user=root ansible_python_interpreter=/usr/bin/python3
 #mirror2.dev.tuxcall.de ansible_host=54.37.220.230 ansible_user=root ansible_python_interpreter=/usr/bin/python3
 #mirror3.dev.tuxcall.de ansible_host=54.37.220.231 ansible_user=root ansible_python_interpreter=/usr/bin/python3
