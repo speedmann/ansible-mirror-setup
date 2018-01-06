@@ -1,0 +1,17 @@
+---
+- hosts: "{{ groups['mirror']|first }}"
+  connection: local
+  gather_facts: no
+  tasks:
+    - include_role:
+        name: ovh
+      when: "'dev' in inventory_hostname"
+      delegate_to: localhost
+- hosts: web
+  remote_user: root
+  pre_tasks:
+    - name: 'install python2'
+      raw: sudo apt-get -y install python-simplejson
+  roles:
+    - role: ansible-acme.sh
+    - { role: ansible-role-nginx, nginx_user: mirror }

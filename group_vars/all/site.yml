@@ -1,0 +1,8 @@
+---
+MIRROR_HOME: /var/www/
+MIRROR_USER: ubuntu
+UBUNTU_ARCH_MIRROR: rsync.archive.ubuntu.com/ubuntu
+UBUNTU_CDI_MIRROR: de.rsync.cdimage.ubuntu.com/cdimage
+UBUNTU_RELEASE_MIRROR: rsync.releases.ubuntu.com/releases
+UBUNTU_BACKPORTS_MIRROR: de.rsync.ports.ubuntu.com/ubuntu-ports
+UBUNTU_CLOUD_MIRROR: de.cloud-images.ubuntu.com/cloud-images

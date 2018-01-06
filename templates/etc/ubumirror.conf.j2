@@ -1,0 +1,80 @@
+#
+# ubumirror.conf - configuration file for the ubumirror scripts.
+#
+
+# Please set the variables below to fit your site.
+# Which email address/user that will receive failure notices.
+EMAIL=mirror@speedmann.de
+
+# Server's FQDN.
+#HOSTNAME=$(hostname -f)
+HOSTNAME=$(hostname)
+
+# Bandwidth limit for all mirror scripts - set to 0 for no limit.
+SPEED=0
+
+# I/O timeout for all mirror scripts - defaults to 600 seconds.
+IO_TIMEOUT=600
+
+# UBUARC_DIR is the destination for the base of the archive directory
+# The script won't run if this variable isn't set
+UBUARC_DIR="{{ nginx_root }}/ubuntu-archive"
+
+# UBUCDI_DIR is the destination for the base of the cdimage directory
+# The script won't run if this variable isn't set
+#UBUCDI_DIR="/srv/mirror/ubuntu-cdimage"
+
+# UBUREL_DIR is the destination for the base of the releases directory
+# The script won't run if this variable isn't set
+UBUREL_DIR="{{ nginx_root }}/ubuntu-release"
+
+# UBUPOR_DIR is the destination for the base of the ports directory
+# The script (ubuports) won't run if this variable isn't set
+#UBUPOR_DIR="/srv/mirror/ubuntu-ports"
+#
+# UBUCLOUD_DIR is the destination for the base of the cloud-image directory
+# The script (ubucloudimage) won't run if this variable isn't set
+#UBUCLOUD_DIR="/srv/mirror/ubuntu-cloud-images"
+
+# LOGDIR is the destination directory of all the logs
+LOGDIR="/var/log/ubumirror/"
+
+# UBU{ARC,CDI,REL}_MIRROR is the rsync path in the form of host::directory/ of the
+# upstream mirrors where the ubumirror scripts will mirror from.
+UBUARC_MIRROR=rsync://de.rsync.archive.ubuntu.com/ubuntu
+UBUCDI_MIRROR=rsync://de.rsync.cdimage.ubuntu.com/cdimage
+UBUREL_MIRROR=rsync://de.rsync.releases.ubuntu.com/releases
+UBUPOR_MIRROR=rsync://de.rsync.ports.ubuntu.com/ubuntu-ports
+UBUCLOUD_MIRROR=rsync://de.cloud-images.ubuntu.com/cloud-images
+
+UBUARC_MIRROR=rsync://{{ UBUNTU_ARCH_MIRROR }}
+UBUCDI_MIRROR=rsync://{{ UBUNTU_CDI_MIRROR }}
+UBUREL_MIRROR=rsync://{{ UBUNTU_RELEASE_MIRROR }}
+UBUPOR_MIRROR=rsync://{{ UBUNTU_BACKPORTS_MIRROR }}
+UBUCLOUD_MIRROR=rsync://{{ UBUNTU_CLOUD_MIRROR }}
+
+# UBU{ARC,CDI,REL}_EXCLUDE is what things you want to exclude
+UBUARC_EXCLUDE=""
+# --exclude binary-powerpc/ --exclude binary-sparc/ \
+# --exclude daily-installer-powerpc/ --exclude daily-installer-sparc/ \
+# --exclude installer-powerpc/ --exclude installer-sparc/ \
+# --exclude *_powerpc.deb --exclude *_powerpc.udeb \
+# --exclude *_sparc.deb --exclude *_sparc.udeb \
+# --exclude Contents-powerpc.gz --exclude Contents-sparc.gz \
+
+UBUCDI_EXCLUDE=""
+# --exclude *-powerpc.* --exclude *-sparc.* \
+# --exclude source/ \
+
+UBUREL_EXCLUDE=""
+# --exclude *-powerpc.* --exclude *-sparc.* \
+
+UBUPOR_EXCLUDE=""
+# --exclude binary-powerpc/ --exclude binary-sparc/ \
+# --exclude daily-installer-powerpc/ --exclude daily-installer-sparc/ \
+# --exclude installer-powerpc/ --exclude installer-sparc/ \
+# --exclude *_powerpc.deb --exclude *_powerpc.udeb \
+# --exclude *_sparc.deb --exclude *_sparc.udeb \
+# --exclude Contents-powerpc.gz --exclude Contents-sparc.gz \
+
+UBUCLOUD_EXCLUDE=""

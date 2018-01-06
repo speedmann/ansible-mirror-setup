@@ -7,15 +7,9 @@ nginx_sites:
      - server_name {{ inventory_hostname }}
      - root "{{ nginx_root }}"
      - autoindex on
- de.releases.ubuntu.com:
+  tuxcall.de:
      - listen 80
      - listen [::]80
      - server_name de.releases.ubuntu.com
      - root "{{ nginx_root }}ubuntu-release"
-     - autoindex on
- de.archive.ubuntu.com:
-     - listen 80
-     - listen [::]80
-     - server_name de.archive.ubuntu.com
-     - root "{{ nginx_root }}ubuntu-archive"
      - autoindex on
