@@ -77,7 +77,7 @@
         name: "{{ item }}"
         minute: "7"
         hour: "*/1"
-        job: " {{ item }}° /dev/null"
+        job: "{{ item }} > /dev/null"
         user: "{{ MIRROR_USER }}"
       with_items:
         - /usr/bin/ubuarchive
